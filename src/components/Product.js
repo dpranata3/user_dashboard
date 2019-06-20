@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import axios from "../config/axios";
 import { Link } from "react-router-dom";
+// import {Redirect} from 'react-router-dom';
+import {connect} from 'react-redux'
 
 class Product extends Component {
   state = {
@@ -27,10 +29,22 @@ class Product extends Component {
     })
   };
 
+  onAddWish = (username)=>{
+    const prod_id = this.state.products.prod_id
+    axios.post(`/wishlists/add/${username}`,{
+      prod_id
+    }).then(res=>{
+      console.log('added to wishlist');
+      
+    })
+  }
+
   prodList = () =>{
+    
       return this.state.products.map(prod=>{
           return(
-              <div className="card" key={prod.prod_id}>
+            <div className="col-lg-3 col-md-6 mb-4" key={prod.prod_id}>
+              <div className="card" >
             {/* card image   */}
               <div className="view overlay">
                 <img src={`http://localhost:2019/products/images/${prod.prod_image}`} className="card-img-top"
@@ -59,18 +73,13 @@ class Product extends Component {
                   <strong>Rp.{prod.prod_price}</strong>
                 </h4>
                 
-                <h5 className="font-weight-bold orange-text">
-                    <a href="www.google.com"><i className="fas fa-thumbs-up">Wishlist</i></a>
-                </h5>
-                
                 <h5 className="font-weight-bold green-text">
                     <a href="www.google.com"> <i className="fas fa-cart-plus">Add to Cart</i></a>
                 </h5>
               </div>
-              {/* <!--Card content--> */}
 
               </div>
-              
+              </div>
           )
       })
   }
@@ -127,33 +136,23 @@ class Product extends Component {
               </div>
             </form>
           </div>
-          {/* <!-- Collapsible content --> */}
+        
         </nav>
-        {/* <!--/.Navbar--> */}
-
         <section className="text-center mb-4">
-        {/* <!--Grid row--> */}
+        
         <div className="row wow fadeIn">
-
-          {/* <!--Grid column--> */}
-          <div className="col-lg-3 col-md-6 mb-4">
-
-            {/* <!--Card--> */}
-            
               {this.prodList()}
-
-          
-            {/* <!--Card--> */}
-
-          </div>
-          {/* <!--Grid column--> */}
-
         </div>
-        {/* <!--Grid row--> */}
         </section>
       </div>
     );
   }
 }
 
-export default Product;
+const mapStateToProps = state => {
+  return {
+    user: state.auth
+  };
+};
+
+export default connect(mapStateToProps) (Product);

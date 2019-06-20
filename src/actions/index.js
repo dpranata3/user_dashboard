@@ -10,7 +10,6 @@ export const onLoginClick =(username,password)=>{
             username,
             user_password:password
           })
-          console.log(res.data);
           
               if(!res.data){
                 dispatch({

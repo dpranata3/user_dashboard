@@ -27,10 +27,10 @@ const AuthReducer = (state= init, action)=>{
           success: ""
         };
       case "KEEP_LOGIN":
-        return{
+        return {
           ...state,
           username: action.payload.username
-        }
+        };
 
       case "TIMEOUT":
         return { ...state, error: "", success: "" };
@@ -50,24 +50,12 @@ const AuthReducer = (state= init, action)=>{
       case "ADD_PROD_ERROR":
         return { ...state, error: action.payload, success: "" };
 
-      case "ADD_CATG_SUCCESS":
+      case "ADD_CART_SUCCESS":
         return { ...state, error: "", success: action.payload };
 
-      case "ADD_CATG_ERROR":
+      case "ADD_CART_ERROR":
         return { ...state, error: action.payload, success: "" };
-
-      case "ADD_SERVICE_SUCCESS":
-        return { ...state, error: "", success: action.payload };
-
-      case "ADD_SERVICE_ERROR":
-        return { ...state, error: action.payload, success: "" };
-
-      case "EDIT_PROD_SUCCESS":
-        return { ...state, error: "", success: action.payload };
-
-      case "EDIT_PROD_ERROR":
-        return { ...state, error: action.payload, success: "" };
-
+        
       case "EDIT_PROFILE_SUCCESS":
         return { ...state, error: "", success: action.payload };
 
@@ -91,8 +79,8 @@ const AuthReducer = (state= init, action)=>{
 
       case "EDIT_SERVICE_ERROR":
         return { ...state, error: action.payload, success: "" };
-      
-        case "EDIT_ORDER_SUCCESS":
+
+      case "EDIT_ORDER_SUCCESS":
         return { ...state, error: "", success: action.payload };
 
       case "EDIT_ORDER_ERROR":

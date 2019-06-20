@@ -11,6 +11,7 @@ import Login from './Login';
 import Register from './Register'
 import Profile from './Profile';
 import WishList from './WishList'
+import Cart from './Cart'
 
 import {keepLogin} from '../actions'
 
@@ -41,6 +42,8 @@ class App extends Component {
               <Route path="/profile/:username" component={Profile} />
               <Route path="/productDetail/:prod_id" component={ProdDetail}/>
               <Route path="/wishlist/:username" component={WishList}/>
+              <Route path="/cart/:username" component={Cart}/>
+              
 
               <Footer />
             </div>

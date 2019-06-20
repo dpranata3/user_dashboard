@@ -1,5 +1,11 @@
 import React, { Component } from "react";
 import axios from "../config/axios";
+import cookies from 'universal-cookie'
+import {connect} from 'react-redux'
+
+import {onAddCart} from '../actions/cart'
+
+const cookie = new cookies()
 
 class ProdDetail extends Component {
   state = {
@@ -21,6 +27,19 @@ class ProdDetail extends Component {
     });
   };
 
+  onAddCarts=()=>{
+    const prod_price = this.state.productDetail.prod_price
+    const username = cookie.get('masihLogin')
+    const prod_id = parseInt(this.props.match.params.prod_id)
+    
+    const qty = parseInt(this.iQty.value)
+    const total_price = parseInt(qty * prod_price)
+
+    this.props.onAddCart(username,prod_id,qty,total_price)
+    
+    
+  }
+
   render() {
     let prods = this.state.productDetail;
     return (
@@ -33,16 +52,15 @@ class ProdDetail extends Component {
             </div>
 
             <div className="col-md-6 mb-4">
-              {/* <!--Content--> */}
               <div className="p-4">
                 <div className="mb-3">
-                  <a href="www.google.com">
+                  <a href='/'>
                     <span className="badge purple mr-1">Category 2</span>
                   </a>
-                  <a href="www.google.com">
+                  <a href='/'>
                     <span className="badge blue mr-1">New</span>
                   </a>
-                  <a href="www.google.com">
+                  <a href='/'>
                     <span className="badge red mr-1">Bestseller</span>
                   </a>
                 </div>
@@ -62,18 +80,26 @@ class ProdDetail extends Component {
 
                 <form className="d-flex justify-content-left">
                   <input
+                    ref={input => (this.iQty = input)}
                     type="number"
-                    value="1"
+                    defaultValue="1"
+                    min={0}
                     aria-label="Search"
                     className="form-control"
                     style={{ width: "100px" }}
                   />
                   <button
-                    className="btn btn-primary btn-md my-0 p"
-                    type="submit"
+                    className="btn btn-primary btn-md ml-2 my-0 p"
+                    onClick={this.onAddCarts} type="button"
                   >
                     Add to cart
-                    <i className="fas fa-shopping-cart ml-1" />
+                    <i className="fas fa-shopping-cart ml-2" />
+                  </button>
+                  <button className="btn btn-success btn-md ml-2 my-0 p"
+                    type="button"
+                  >
+                    Add to Wishlist
+                     <i className="fas fa-hands ml-2"/>
                   </button>
                 </form>
               </div>
@@ -85,4 +111,4 @@ class ProdDetail extends Component {
   }
 }
 
-export default ProdDetail;
+export default connect(null,{onAddCart})(ProdDetail);
