@@ -1,0 +1,153 @@
+import React, {Component} from 'react'
+import axios from '../config/axios';
+import { connect } from "react-redux";
+import { Redirect } from 'react-router-dom'
+
+class Profile extends Component {
+  state = {
+    profiles: [],
+    url: "",
+    selectedId:0
+  };
+
+  componentDidMount() {
+    this.getProfile();
+  }
+
+  getProfile = () => {
+    const username = this.props.match.params.username;
+    axios.get(`/users/username/${username}`).then(res => {
+      this.setState({
+        profiles: res.data,
+        url: `http://localhost:2019/users/images/${res.data.avatar}`
+      });
+    });
+  };
+
+  onEditProfile=id =>{
+    this.setState({selectedId:id})
+  }
+
+  render() {
+    let profile = this.state.profiles;
+    let user = this.props.user;
+
+    if (user.username !== "") {
+      if(profile.id !== this.state.selectedId){
+        return (
+          <div>
+            <div className="card container">
+              <div className="col-md-4">
+                <img
+                  src={this.state.url}
+                  alt="John"
+                  style={{ width: "350px", height: "350px" }}
+                />
+              </div>
+              <div className="col-md-6">
+                <h3>
+                  {profile.first_name} {profile.last_name}
+                </h3>
+
+                
+                  <strong>
+                    <label>Address</label>
+                  </strong>
+                <div>
+                  {profile.address}
+                </div>
+
+                <strong>
+                  <label>Phone</label>
+                </strong>
+                <div>
+                  {profile.telephone}
+                </div>
+                
+                <strong>
+                  <label>Email</label>
+                </strong>
+                <div className="text-primary">
+                  {profile.email}
+                </div>
+                
+                <button
+                  className="btn btn-primary mr-2"
+                  onClick={() => {
+                    this.onEditProfile(profile.id);
+                  }}
+                >
+                  Edit
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+      } else {
+        return(
+          <div>
+            <div className="card container">
+              <div>
+                <img
+                  src={this.state.url}
+                  alt="John"
+                  style={{ width: "350px", height: "350px" }}
+                />
+                <input ref={input => this.ava = input} className="form-control" type="file" />
+                </div>
+                <strong><label>First Name</label></strong>
+                <div>
+                  <input ref={input => this.firstname = input} className="form-control " type="text" defaultValue={profile.first_name}/>
+                </div>
+                <strong><label>Last Name</label></strong>
+                <div>
+                <input ref={input => this.lastname = input} className="form-control"  type="text" defaultValue={profile.last_name}/>
+                </div>
+               
+
+                <strong><label>Address</label></strong>
+                <div>
+                  <input ref={input => this.address = input} className="form-control" type="text" defaultValue={profile.address}/>
+                </div>
+                <strong><label>Phone</label></strong>
+                <div>
+                  <input ref={input => this.phone = input} className="form-control" type="text" defaultValue={profile.telephone}/>
+                </div>
+                <strong><label>Email</label></strong>
+                  <input ref={input => this.email = input} className="form-control" type="email" defaultValue={profile.email}/>
+                <button
+                  className="btn btn-primary mr-2"
+                  onClick={() => {
+                    this.onEditProfile(profile.id);
+                  }}
+                >
+                  Save
+                </button>
+                <button
+                  onClick={() => {
+                    this.setState({ selectedId: 0 });
+                  }}
+                  className="btn btn-danger"
+                >
+                  Cancel
+                </button>
+              </div>
+          </div>
+        )
+      }
+     
+    }
+    return(
+      <Redirect to='/login'/>
+    )
+  }
+}
+
+const mapStateToProps = state => {
+    return {
+      user: state.auth
+    };
+  };
+  
+
+export default connect(mapStateToProps)(Profile)
