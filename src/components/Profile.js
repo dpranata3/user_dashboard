@@ -3,6 +3,8 @@ import axios from '../config/axios';
 import { connect } from "react-redux";
 import { Redirect } from 'react-router-dom'
 
+import {onSaveProfile} from '../actions/index'
+
 class Profile extends Component {
   state = {
     profiles: [],
@@ -26,6 +28,17 @@ class Profile extends Component {
 
   onEditProfile=id =>{
     this.setState({selectedId:id})
+  }
+
+  onSaveProfiles=(username) =>{
+    const first_name = this.firstname.value
+    const last_name = this.lastname.value
+    const address = this.address.value
+    const phone = this.phone.value
+    const email = this.email.value
+    const avatar = this.ava.files[0]
+
+    this.props.onSaveProfile(username,first_name,last_name,address,phone,email,avatar)
   }
 
   render() {
@@ -118,7 +131,7 @@ class Profile extends Component {
                 <button
                   className="btn btn-primary mr-2"
                   onClick={() => {
-                    this.onEditProfile(profile.id);
+                    this.onSaveProfiles(profile.username);
                   }}
                 >
                   Save
@@ -150,4 +163,4 @@ const mapStateToProps = state => {
   };
   
 
-export default connect(mapStateToProps)(Profile)
+export default connect(mapStateToProps,{onSaveProfile})(Profile)

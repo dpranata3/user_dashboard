@@ -50,12 +50,7 @@ class Navbar extends Component {
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a
-                    className="nav-link waves-effect"
-                    href="www.google.com"
-                  >
-                    Wishlist
-                  </a>
+                  <Link to={`/wishlist/${users.username}`} className="nav-link waves-effect">Wishlist</Link>
                 </li>
                 <li className="nav-item">
                   <Link to={`/profile/${users.username}`} className="nav-link waves-effect">Profile</Link>

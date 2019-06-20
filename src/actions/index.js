@@ -91,3 +91,38 @@ export const keepLogin = (username) => {
     }
      
   };
+
+// edit profile
+export const onSaveProfile=(username,first_name,last_name,address,phone,email,avatar)=>{
+  return async dispatch =>{
+    try {
+       const formData = new FormData()
+
+       formData.append("first_name", first_name)
+       formData.append("last_name", last_name)
+       formData.append("address", address)
+       formData.append("telephone", phone)
+       formData.append("email", email)
+
+       if(avatar){
+         formData.append("avatar", avatar)
+       }
+       
+       const res = await axios.patch(`/profile/${username}`, formData,{
+         headers:{
+           "Content-Type": "multipart/form-data"
+         }
+       });
+      console.log(res.data);
+      
+       dispatch({
+         type:'EDIT_PROFILE_SUCCESS',
+         payload:'Profile has been edited successfully'
+       })
+       
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
+}

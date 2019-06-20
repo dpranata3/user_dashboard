@@ -10,6 +10,7 @@ import Footer from './Footer'
 import Login from './Login';
 import Register from './Register'
 import Profile from './Profile';
+import WishList from './WishList'
 
 import {keepLogin} from '../actions'
 
@@ -39,6 +40,8 @@ class App extends Component {
               <Route exact path="/" component={Home} />
               <Route path="/profile/:username" component={Profile} />
               <Route path="/productDetail/:prod_id" component={ProdDetail}/>
+              <Route path="/wishlist/:username" component={WishList}/>
+
               <Footer />
             </div>
           </BrowserRouter>
