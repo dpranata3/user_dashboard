@@ -31,3 +31,7 @@ export const onAddCart =(username,prod_id,qty,total_price)=>{
         }
     }
 }
+
+export const onSaveCart =(cart_id,qty,total_price)=>{
+  
+}

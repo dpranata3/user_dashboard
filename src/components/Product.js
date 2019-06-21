@@ -5,96 +5,115 @@ import { Link } from "react-router-dom";
 import {connect} from 'react-redux'
 
 class Product extends Component {
+  // format IDR
+  constructor(props) {
+    super(props);
+    this.formatterIDR = new Intl.NumberFormat("id", {
+      style: "currency",
+      currency: "IDR",
+      minimumFractionDigits: 0
+    });
+  }
+
   state = {
-    products:[],
+    products: [],
     categories: []
   };
 
-  componentDidMount(){
-      this.getCatg()
-      this.getProduct()
+  componentDidMount() {
+    this.getCatg();
+    this.getProduct();
   }
 
   getCatg = () => {
-    axios.get('/categories/all')
-        .then(res => {
-            this.setState({ categories: res.data });
+    axios.get("/categories/all").then(res => {
+      this.setState({ categories: res.data });
     });
   };
 
-  getProduct = ()=>{
-    axios.get('/products/all')
-    .then(res=>{
-        this.setState({products: res.data})
-    })
+  getProduct = () => {
+    axios.get("/products/all").then(res => {
+      this.setState({ products: res.data });
+    });
   };
 
-  onAddWish = (username)=>{
-    const prod_id = this.state.products.prod_id
-    axios.post(`/wishlists/add/${username}`,{
-      prod_id
-    }).then(res=>{
-      console.log('added to wishlist');
-      
-    })
-  }
-
-  prodList = () =>{
-    
-      return this.state.products.map(prod=>{
-          return(
-            <div className="col-lg-3 col-md-6 mb-4" key={prod.prod_id}>
-              <div className="card" >
-            {/* card image   */}
-              <div className="view overlay">
-                <img src={`http://localhost:2019/products/images/${prod.prod_image}`} className="card-img-top"
-                  alt="products"/>
-                <a href="www.google.com">
-                  <div className="mask rgba-white-slight"></div>
-                </a>
-              </div>
-              {/* <!--Card image--> */}
- 
-              {/* <!--Card content--> */}
-              <div className="card-body text-center">
-                {/* <!--Category & Title--> */}
-                <a href="www.google.com" className="grey-text">
-                  <h5>{prod.prod_code}</h5>
-                </a>
-                <h5>
-                  <strong>
-                      <Link className="dark-grey-text" to={`/productDetail/${prod.prod_id}`}>{prod.prod_name}
-                        <span className="badge badge-pill primary-color">bestseller</span>
-                      </Link>
-                  </strong>
-                </h5>
-
-                <h4 className="font-weight-bold blue-text">
-                  <strong>Rp.{prod.prod_price}</strong>
-                </h4>
-                
-                <h5 className="font-weight-bold green-text">
-                    <a href="www.google.com"> <i className="fas fa-cart-plus">Add to Cart</i></a>
-                </h5>
-              </div>
-
-              </div>
-              </div>
-          )
+  onAddWish = username => {
+    const prod_id = this.state.products.prod_id;
+    axios
+      .post(`/wishlists/add/${username}`, {
+        prod_id
       })
-  }
-  
+      .then(res => {
+        console.log("added to wishlist");
+      });
+  };
+
+  prodList = () => {
+    return this.state.products.map(prod => {
+      return (
+        <div className="col-lg-3 col-md-6 mb-4" key={prod.prod_id}>
+          <div className="card">
+            {/* card image   */}
+            <div className="view overlay">
+              <img
+                src={`http://localhost:2019/products/images/${prod.prod_image}`}
+                className="card-img-top"
+                alt="products"
+              />
+              <a href="www.google.com">
+                <div className="mask rgba-white-slight" />
+              </a>
+            </div>
+            {/* <!--Card image--> */}
+
+            {/* <!--Card content--> */}
+            <div className="card-body text-center">
+              {/* <!--Category & Title--> */}
+              <a href="www.google.com" className="grey-text">
+                <h5>{prod.prod_code}</h5>
+              </a>
+              <h5>
+                <strong>
+                  <Link
+                    className="dark-grey-text"
+                    to={`/productDetail/${prod.prod_id}`}
+                  >
+                    {prod.prod_name}
+                    <span className="badge badge-pill primary-color">
+                      bestseller
+                    </span>
+                  </Link>
+                </strong>
+              </h5>
+
+              <h4 className="font-weight-bold blue-text">
+                <strong>{this.formatterIDR.format(prod.prod_price)}</strong>
+              </h4>
+
+              <h5 className="font-weight-bold green-text">
+                <a href="www.google.com">
+                  {" "}
+                  <i className="fas fa-cart-plus">Add to Cart</i>
+                </a>
+              </h5>
+            </div>
+          </div>
+        </div>
+      );
+    });
+  };
+
   catgList = () => {
     return this.state.categories.map(catg => {
       return (
         <ul className="navbar-nav mr-auto" key={catg.id_catg}>
           <li className="nav-item">
             <a className="nav-link" href="www.google.com">
-                {catg.catg_name}
+              {catg.catg_name}
             </a>
-          </li> 
-          </ul>
-      )
+          </li>
+        </ul>
+      );
     });
   };
 
@@ -122,7 +141,7 @@ class Product extends Component {
           {/* <!-- Collapsible content --> */}
           <div className="collapse navbar-collapse" id="basicExampleNav">
             {/* <!-- Links --> */}
-                {this.catgList()}
+            {this.catgList()}
             {/* <!-- Links --> */}
 
             <form className="form-inline">
@@ -136,13 +155,9 @@ class Product extends Component {
               </div>
             </form>
           </div>
-        
         </nav>
         <section className="text-center mb-4">
-        
-        <div className="row wow fadeIn">
-              {this.prodList()}
-        </div>
+          <div className="row wow fadeIn">{this.prodList()}</div>
         </section>
       </div>
     );

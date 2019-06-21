@@ -86,7 +86,7 @@ class Register extends Component {
                   <hr className="mb-2" />
                   <button
                     className="btn btn-success btn-lg btn-block"
-                    type="submit"
+                    type="button"
                     onClick={this.onRegisClick}
                   >
                     Register

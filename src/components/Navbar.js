@@ -65,14 +65,12 @@ class Navbar extends Component {
               {/* <!-- Left --> */}
               <ul className="navbar-nav mr-auto">
                 <li className="nav-item">
-                  <a className="nav-link waves-effect" href="/">
-                    Order
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link waves-effect" href="/">
-                    Payment
-                  </a>
+                <Link
+                    to={`/orderlist`}
+                    className="nav-link waves-effect"
+                  >
+                    My Order
+                  </Link>
                 </li>
                 <li className="nav-item">
                   <Link

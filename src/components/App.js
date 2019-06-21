@@ -12,6 +12,9 @@ import Register from './Register'
 import Profile from './Profile';
 import WishList from './WishList'
 import Cart from './Cart'
+import Checkout from './Checkout'
+import PaymentNotif from './PaymentNotif'
+import OrderList from './OrderList'
 
 import {keepLogin} from '../actions'
 
@@ -43,6 +46,10 @@ class App extends Component {
               <Route path="/productDetail/:prod_id" component={ProdDetail}/>
               <Route path="/wishlist/:username" component={WishList}/>
               <Route path="/cart/:username" component={Cart}/>
+              <Route path="/cart/checkout" component={Checkout}/>
+              <Route path="/payment_notif/:order_id" component={PaymentNotif}/>
+              <Route excat path="/payment_notif" component={PaymentNotif}/>
+              <Route path="/orderlist" component={OrderList}/>
               
 
               <Footer />

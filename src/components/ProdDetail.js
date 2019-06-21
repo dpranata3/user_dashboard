@@ -8,6 +8,16 @@ import {onAddCart} from '../actions/cart'
 const cookie = new cookies()
 
 class ProdDetail extends Component {
+  // format IDR
+  constructor(props) {
+    super(props);
+    this.formatterIDR = new Intl.NumberFormat("id", {
+      style: "currency",
+      currency: "IDR",
+      minimumFractionDigits: 0
+    });
+  }
+
   state = {
     productDetail: [],
     url: ""
@@ -27,18 +37,16 @@ class ProdDetail extends Component {
     });
   };
 
-  onAddCarts=()=>{
-    const prod_price = this.state.productDetail.prod_price
-    const username = cookie.get('masihLogin')
-    const prod_id = parseInt(this.props.match.params.prod_id)
-    
-    const qty = parseInt(this.iQty.value)
-    const total_price = parseInt(qty * prod_price)
+  onAddCarts = () => {
+    const prod_price = this.state.productDetail.prod_price;
+    const username = cookie.get("masihLogin");
+    const prod_id = parseInt(this.props.match.params.prod_id);
 
-    this.props.onAddCart(username,prod_id,qty,total_price)
-    
-    
-  }
+    const qty = parseInt(this.iQty.value);
+    const total_price = parseInt(qty * prod_price);
+
+    this.props.onAddCart(username, prod_id, qty, total_price);
+  };
 
   render() {
     let prods = this.state.productDetail;
@@ -54,19 +62,19 @@ class ProdDetail extends Component {
             <div className="col-md-6 mb-4">
               <div className="p-4">
                 <div className="mb-3">
-                  <a href='/'>
+                  <a href="/">
                     <span className="badge purple mr-1">Category 2</span>
                   </a>
-                  <a href='/'>
+                  <a href="/">
                     <span className="badge blue mr-1">New</span>
                   </a>
-                  <a href='/'>
+                  <a href="/">
                     <span className="badge red mr-1">Bestseller</span>
                   </a>
                 </div>
 
                 <p className="lead">
-                  <span>Rp. {this.state.productDetail.prod_price}</span>
+                  <span>{this.formatterIDR.format(this.state.productDetail.prod_price)}</span>
                 </p>
 
                 <p className="lead font-weight-bold">Description</p>
@@ -90,16 +98,18 @@ class ProdDetail extends Component {
                   />
                   <button
                     className="btn btn-primary btn-md ml-2 my-0 p"
-                    onClick={this.onAddCarts} type="button"
+                    onClick={this.onAddCarts}
+                    type="button"
                   >
                     Add to cart
                     <i className="fas fa-shopping-cart ml-2" />
                   </button>
-                  <button className="btn btn-success btn-md ml-2 my-0 p"
+                  <button
+                    className="btn btn-success btn-md ml-2 my-0 p"
                     type="button"
                   >
                     Add to Wishlist
-                     <i className="fas fa-hands ml-2"/>
+                    <i className="fas fa-hands ml-2" />
                   </button>
                 </form>
               </div>
