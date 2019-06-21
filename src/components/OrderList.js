@@ -1,7 +1,7 @@
 import React,{Component} from 'react'
 import axios from '../config/axios'
 import {connect} from 'react-redux'
-import {Redirect} from 'react-router-dom'
+import {Redirect, Link} from 'react-router-dom'
 // import swal from '@sweetalert/with-react'
 import cookies from 'universal-cookie'
 
@@ -20,6 +20,7 @@ class OrderList extends Component {
 
   state = {
     orders: [],
+    orderDetails:[],
     totalPay: ""
   };
 
@@ -30,12 +31,85 @@ class OrderList extends Component {
 
   getOrder = () => {
     const username = cookie.get("masihLogin");
-    axios.get(`/orders/list/${username}`).then(res => {
-     
+    axios.get(`/orders/list/${username}`)
+    .then(res => { 
       this.setState({ orders: res.data});
     });
   };
 
+  getOrderDetail =(order_id)=>{
+      axios.get(`/orders/detail/${order_id}`)
+      .then(res =>{
+          console.log(res.data);
+          this.setState({orderDetails:res.data})
+      })
+  }
+
+
+ // Confirm Payment
+
+ // order details
+ orderDetailModal=()=>{
+     
+    this.modalList=()=>{
+        return this.state.orderDetails.map(oDetail=>{
+            return (
+              <tr key={oDetail.id}>
+                <td className="text-center">{oDetail.id}</td>
+                <td className="text-center">{oDetail.order_id}</td>
+                <td className="text-center">{oDetail.prod_name}</td>
+                <td className="text-center">{oDetail.qty}</td>
+                <td className="text-center">{oDetail.total_price}</td>
+                <td className="text-center">{oDetail.totalAmount}</td>
+              </tr>
+            );
+        })
+    }
+      return (
+        <div
+          class="modal fade"
+          id="orderDetailModal"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="exampleModalCenterTitle"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">
+                  Your Order Details
+                </h5>
+              </div>
+              <div class="modal-body">
+                <table className="table table-bordered table-hover">
+                  <thead>
+                      <tr>
+                      <th className="text-center">No</th>
+                      <th className="text-center">Order Id</th>
+                      <th className="text-center">Product Name</th>
+                      <th className="text-center">Product Qty</th>
+                      <th className="text-center">Product Price</th>
+                      <th className="text-center">Total Amount</th>
+                      </tr>
+                  </thead>
+                  <tbody>{this.modalList()}</tbody>
+                </table>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-dismiss="modal"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+ }
 
   orderList = () => { 
     return this.state.orders.map(order => {
@@ -50,27 +124,33 @@ class OrderList extends Component {
           <td className="text-center">{order.shipment}</td>
           <td className="text-center">{order.order_status}</td>
           <td>
+            <Link to={`/payment/${order.id}`}>
+              <button
+                className="btn btn-success"
+                onClick={() => {
+                  this.onSubmitPay(order.id);
+                }}
+              >
+                Submit Payment
+              </button>
+            </Link>
+
             <button
-              className="btn btn-danger"
+              className="btn btn-primary"
+              type="button"
+              data-toggle="modal"
+              data-target="#orderDetailModal"
               onClick={() => {
-                this.onSubmitPay(order.id)
+                this.getOrderDetail(order.order_id);
               }}
-            >
-              Submit Payment
-            </button>
-            <button
-               className="btn btn-second"
-               type="button"
-               data-toggle="modal"
-               data-target="#orderModal"
-               onClick={this.onSubmitPay(order.id)}
             >
               Details
             </button>
+            {this.orderDetailModal()}
           </td>
         </tr>
       );
-    });
+    })
   };
 
   render() {

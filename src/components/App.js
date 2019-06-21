@@ -47,7 +47,7 @@ class App extends Component {
               <Route path="/wishlist/:username" component={WishList}/>
               <Route path="/cart/:username" component={Cart}/>
               <Route path="/cart/checkout" component={Checkout}/>
-              <Route path="/payment_notif/:order_id" component={PaymentNotif}/>
+              <Route path="/payment/:id" component={PaymentNotif}/>
               <Route excat path="/payment_notif" component={PaymentNotif}/>
               <Route path="/orderlist" component={OrderList}/>
               

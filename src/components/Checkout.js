@@ -126,6 +126,7 @@ class Checkout extends Component {
       })
   };
 
+  // Modal to display Order
   orderModal = () => {
     
     if(this.state.shipCosts) {

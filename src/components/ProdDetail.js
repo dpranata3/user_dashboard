@@ -37,6 +37,7 @@ class ProdDetail extends Component {
     });
   };
 
+  // Input data ke td_carts
   onAddCarts = () => {
     const prod_price = this.state.productDetail.prod_price;
     const username = cookie.get("masihLogin");

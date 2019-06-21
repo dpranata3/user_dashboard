@@ -62,10 +62,10 @@ const AuthReducer = (state= init, action)=>{
       case "EDIT_PROFILE_ERROR":
         return { ...state, error: action.payload, success: "" };
 
-      case "EDIT_CATG_SUCCESS":
+      case "ADD_PAY_SUCCESS":
         return { ...state, error: "", success: action.payload };
 
-      case "EDIT_CATG_ERROR":
+      case "ADD_PAY_ERROR":
         return { ...state, error: action.payload, success: "" };
 
       case "EDIT_STOCK_SUCCESS":
