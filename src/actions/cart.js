@@ -32,6 +32,31 @@ export const onAddCart =(username,prod_id,qty,total_price)=>{
     }
 }
 
-export const onSaveCart =(cart_id,qty,total_price)=>{
-  
-}
+export const onSaveCarts=(cart_id,qty)=>{
+ return async dispatch=>{
+   try {
+     const res = await axios.patch(`/carts/update/${cart_id}`,{
+       qty
+     })
+     if (!res.data) {
+       dispatch({
+         type: "EDIT_CART_ERROR",
+         payload: "cart not been edited"
+       });
+      
+       return setTimeout(() => {
+         dispatch({
+           type: "TIMEOUT"
+         });
+       }, 3000);
+     }
+     dispatch({
+       type: "EDIT_CART_SUCCESS",
+       payload: "cart has been edited"
+     });
+   } catch (error) {
+     console.log(error);
+     
+   }
+ }
+} 

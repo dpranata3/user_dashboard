@@ -93,7 +93,7 @@ export const keepLogin = (username) => {
   };
 
 // edit profile
-export const onSaveProfile=(username,first_name,last_name,address,phone,email,avatar)=>{
+export const onSaveProfile=(username,first_name,last_name,address,phone,email,user_password,avatar)=>{
   return async dispatch =>{
     try {
        const formData = new FormData()
@@ -103,6 +103,7 @@ export const onSaveProfile=(username,first_name,last_name,address,phone,email,av
        formData.append("address", address)
        formData.append("telephone", phone)
        formData.append("email", email)
+       formData.append("user_password", user_password)
 
        if(avatar){
          formData.append("avatar", avatar)

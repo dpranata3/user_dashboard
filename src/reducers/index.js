@@ -55,7 +55,13 @@ const AuthReducer = (state= init, action)=>{
 
       case "ADD_CART_ERROR":
         return { ...state, error: action.payload, success: "" };
-        
+
+      case "EDIT_CART_SUCCESS":
+        return { ...state, error: "", success: action.payload };
+
+      case "EDIT_CART_ERROR":
+        return { ...state, error: action.payload, success: "" };
+
       case "EDIT_PROFILE_SUCCESS":
         return { ...state, error: "", success: action.payload };
 

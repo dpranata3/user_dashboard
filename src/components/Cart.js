@@ -4,8 +4,10 @@ import { connect } from "react-redux";
 import { Redirect } from 'react-router-dom'
 import { Link } from "react-router-dom";
 import cookies from 'universal-cookie';
+import swal from '@sweetalert/with-react';
 
-import {onSaveCart} from '../actions/cart'
+import {onSaveCarts} from '../actions/cart'
+
 
 const cookie = new cookies()
 
@@ -22,7 +24,8 @@ class Cart extends Component {
 
   state = {
     carts: [],
-    checkout:0
+    checkout:0,
+    selectedId:0
   };
 
   componentDidMount() {
@@ -37,17 +40,46 @@ class Cart extends Component {
     });
   };
 
-  onCartDel = id => {
-    axios.delete(`/carts/del/${id}`).then(res => {
-      if (res.data) {
-        this.getCartList();
-      }
-    });
+  onCartDel = async id => {
+    const ask = window.confirm("Are you sure want delete this cart?");
+
+    if(ask){
+     await axios.delete(`/carts/del/${id}`).then(res => {
+      swal({
+        title: "Data Deleted",
+        text: "Cart has been deleted",
+        icon: "success",
+        button: "OK"
+      }).then(()=>{
+        this.getCartList()
+      })
+      });
+    }
+
+    
   };
 
+  onSaveCart= async id =>{
+    const cart_id = id
+    const qty = parseInt(this.eCartQty.value) 
+
+    await this.props.onSaveCarts(cart_id,qty);
+    swal({
+      title: "Data Updated",
+      text: "Cart has been updated",
+      icon: "success",
+      button: "OK"
+    }).then(()=>{
+      window.location.href = `/`;
+    })
+  }
+
+  onEditCart = id =>{
+    this.setState({selectedId:id})
+  }
+
   checkoutBtn=()=>{
-      return (
-        
+      return (      
             <Link to='/cart/checkout'>
             <button className="btn btn-warning" type="button">
               Checkout
@@ -60,6 +92,7 @@ class Cart extends Component {
     
     return this.state.carts.map(cart => {
       let subTotal = cart.qty * cart.prod_price;
+      if(cart.cart_id !==this.state.selectedId){
         return (
           <tr key={cart.cart_id}>
             <td className="text-center">{cart.cart_id}</td>
@@ -80,16 +113,78 @@ class Cart extends Component {
             <td className="text-center">{this.formatterIDR.format(subTotal)}</td>
             <td>
               <button
+                className="btn btn-primary mr-2"
+                onClick={()=>{this.onEditCart(cart.cart_id)}}
+              >
+               <i className="fas fa-edit" /> 
+              </button>
+              <button
                 className="btn btn-danger"
                 onClick={() => {
                   this.onCartDel(cart.cart_id);
                 }}
               >
-                Delete
+                <i className="fas fa-trash-alt"></i>
               </button>
             </td>
           </tr>
         );
+      } 
+      else{
+        return (
+          <tr key={cart.cart_id}>
+            <td className="text-center">{cart.cart_id}</td>
+            <td className="text-center">{cart.prod_name}</td>
+            <td className="text-center">
+              <Link to={`/productDetail/${cart.prod_id}`}>
+                <img
+                  src={`http://localhost:2019/products/images/${
+                    cart.prod_image
+                  }`}
+                  alt={cart.prod_name}
+                  style={{ width: "50px", height: "50px" }}
+                />
+              </Link>
+            </td>
+            <td className="text-center">
+              {this.formatterIDR.format(cart.prod_price)}
+            </td>
+            <td className="text-center">
+              <input
+                className="form-control"
+                ref={input => {
+                  this.eCartQty = input;
+                }}
+                type="number"
+                min={1}
+                defaultValue={cart.qty}
+              />
+            </td>
+            <td className="text-center">
+              {this.formatterIDR.format(subTotal)}
+            </td>
+            <td>
+              <button
+                className="btn btn-success mr-2"
+                onClick={() => {
+                  this.onSaveCart(cart.cart_id);
+                }}
+              >
+                <i className="fas fa-save" />
+              </button>
+              <button
+                className="btn btn-warning"
+                onClick={() => {
+                  this.setState({ selectedId: 0 });
+                }}
+              >
+                <i className="fas fa-ban" />
+              </button>
+            </td>
+          </tr>
+        );
+      }
+       
       }) 
   }
 
@@ -145,4 +240,4 @@ const mapStateToProps = state => {
     };
   };
 
-export default connect(mapStateToProps,{onSaveCart})(Cart)
+export default connect(mapStateToProps,{onSaveCarts})(Cart)

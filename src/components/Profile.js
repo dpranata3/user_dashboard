@@ -38,6 +38,7 @@ class Profile extends Component {
     const phone = this.phone.value;
     const email = this.email.value;
     const avatar = this.ava.files[0];
+    const user_password = this.password.value;
 
     await this.props.onSaveProfile(
       username,
@@ -46,6 +47,7 @@ class Profile extends Component {
       address,
       phone,
       email,
+      user_password,
       avatar
     );
     swal({
@@ -98,6 +100,10 @@ class Profile extends Component {
                   </strong>
                   <div className="text-primary">{profile.email}</div>
 
+                  <strong>
+                    <label>Password</label>
+                  </strong>
+                  <div></div>
                   <button
                     className="btn btn-primary mr-2"
                     onClick={() => {
@@ -115,7 +121,9 @@ class Profile extends Component {
         return (
           <main className="mt-5 pt-4">
             <div className="container wow fadeIn">
-              <h2 className="my-3 h2 text-center">{profile.first_name}'s Profile</h2>
+              <h2 className="my-3 h2 text-center">
+                {profile.first_name}'s Profile
+              </h2>
               <div className="card container">
                 <div>
                   <img
@@ -174,15 +182,29 @@ class Profile extends Component {
                     defaultValue={profile.telephone}
                   />
                 </div>
+                <div>
+                  <strong>
+                    <label>Email</label>
+                  </strong>
+                  <input
+                    ref={input => (this.email = input)}
+                    className="form-control"
+                    type="email"
+                    defaultValue={profile.email}
+                  />
+                </div>
+                <div>
                 <strong>
-                  <label>Email</label>
-                </strong>
-                <input
-                  ref={input => (this.email = input)}
-                  className="form-control"
-                  type="email"
-                  defaultValue={profile.email}
-                />
+                    <label>Password</label>
+                  </strong>
+                  <input
+                    ref={input => (this.password = input)}
+                    className="form-control"
+                    type="password"
+                    defaultValue={profile.user_password}
+                  />
+                </div>
+
                 <button
                   className="btn btn-primary mr-2"
                   onClick={() => {

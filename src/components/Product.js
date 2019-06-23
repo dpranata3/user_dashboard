@@ -39,11 +39,8 @@ class Product extends Component {
   };
 
   // Filtering
-  onCatgSearch=()=>{
-    
-  }
-
-  onBtnSearch=()=>{
+ 
+ onBtnSearch=()=>{
     let searchName = this.searchName.value 
     let searchCatg = this.searchCatg.value
     let searchPriceMin = parseInt(this.searchPriceMin.value)
