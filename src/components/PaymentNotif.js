@@ -29,7 +29,7 @@ class PaymentNotif extends Component {
    
    await axios.patch(`/orders/edit/${id_order}`, {
        payment: "waiting for confirmation",
-       shipment: "waiting for confirmation"
+       shipment: "waiting for confirmation",
      })
      .then(res => {
        console.log(res.data);

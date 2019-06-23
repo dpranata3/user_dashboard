@@ -48,7 +48,6 @@ class Profile extends Component {
       email,
       avatar
     );
-
     swal({
       title: "Successfully Edited",
       text: "Your profile has been edited",
@@ -57,6 +56,8 @@ class Profile extends Component {
     }).then(() => {
       window.location.href = `/`;
     });
+
+    
   };
 
   render() {

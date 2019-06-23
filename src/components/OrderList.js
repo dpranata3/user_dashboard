@@ -40,7 +40,6 @@ class OrderList extends Component {
   getOrderDetail =(order_id)=>{
       axios.get(`/orders/detail/${order_id}`)
       .then(res =>{
-          console.log(res.data);
           this.setState({orderDetails:res.data})
       })
   }
@@ -59,8 +58,8 @@ class OrderList extends Component {
                 <td className="text-center">{oDetail.order_id}</td>
                 <td className="text-center">{oDetail.prod_name}</td>
                 <td className="text-center">{oDetail.qty}</td>
-                <td className="text-center">{oDetail.total_price}</td>
-                <td className="text-center">{oDetail.totalAmount}</td>
+                <td className="text-center">{this.formatterIDR.format(oDetail.prod_price)}</td>
+                <td className="text-center">{this.formatterIDR.format(oDetail.total_price)}</td>
               </tr>
             );
         })
@@ -90,7 +89,7 @@ class OrderList extends Component {
                       <th className="text-center">Product Name</th>
                       <th className="text-center">Product Qty</th>
                       <th className="text-center">Product Price</th>
-                      <th className="text-center">Total Amount</th>
+                      <th className="text-center">Amount</th>
                       </tr>
                   </thead>
                   <tbody>{this.modalList()}</tbody>

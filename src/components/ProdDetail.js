@@ -78,28 +78,17 @@ class ProdDetail extends Component {
                 <div className="p-4">
                   <div className="mb-3">
                     <a href="/">
-                      <span className="badge purple mr-1">Category 2</span>
-                    </a>
-                    <a href="/">
-                      <span className="badge blue mr-1">New</span>
-                    </a>
-                    <a href="/">
-                      <span className="badge red mr-1">Bestseller</span>
+                      <span className="badge purple mr-1">{prods.prod_name}</span>
                     </a>
                   </div>
   
                   <p className="lead">
-                    <span>{this.formatterIDR.format(this.state.productDetail.prod_price)}</span>
+                    <span>{this.formatterIDR.format(prods.prod_price)}</span>
                   </p>
   
                   <p className="lead font-weight-bold">Description</p>
   
-                  <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Et
-                    dolor suscipit libero eos atque quia ipsa sint voluptatibus!
-                    Beatae sit assumenda asperiores iure at maxime atque
-                    repellendus maiores quia sapiente.
-                  </p>
+                  <p>{prods.prod_desc}</p>
   
                   <form className="d-flex justify-content-left">
                     <input

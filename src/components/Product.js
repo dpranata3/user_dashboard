@@ -13,6 +13,7 @@ class Product extends Component {
       minimumFractionDigits: 0
     });
   }
+ 
 
   state = {
     products: [],
@@ -36,6 +37,83 @@ class Product extends Component {
       this.setState({ products: res.data, productSearch:res.data });
     });
   };
+
+  // Filtering
+  onCatgSearch=()=>{
+    
+  }
+
+  onBtnSearch=()=>{
+    let searchName = this.searchName.value 
+    let searchCatg = this.searchCatg.value
+    let searchPriceMin = parseInt(this.searchPriceMin.value)
+    let searchPriceMax = parseInt(this.searchPriceMax.value)
+ 
+        var arrSearch = this.state.products.filter(item => {
+          // find product by name combine price rane
+          if(isNaN(searchPriceMin) && isNaN(searchPriceMax) && searchCatg ==="")
+            return(
+              item.prod_name.toLowerCase().includes(searchName.toLowerCase())
+            )
+          else if(isNaN(searchPriceMin) && searchCatg ===""){
+            return(
+              item.prod_name.toLowerCase().includes(searchName.toLowerCase()) &&
+              item.prod_price <= searchPriceMax
+            )
+          }
+          else if(isNaN(searchPriceMax) && searchCatg ===""){
+            return(
+              item.prod_name.toLowerCase().includes(searchName.toLowerCase()) &&
+              item.prod_price >= searchPriceMin
+            )
+          } else if(searchCatg===""){
+            return(
+              item.prod_name.toLowerCase().includes(searchName.toLowerCase()) &&
+              item.prod_price <= searchPriceMax &&
+              item.prod_price >= searchPriceMin
+            )
+          }
+          // find product by category
+          else if(isNaN(searchPriceMin) && isNaN(searchPriceMax) && searchName ==="")
+          return(
+            item.catg_name.toLowerCase().includes(searchCatg.toLowerCase())
+          )
+          else if(isNaN(searchPriceMin) && searchName ===""){
+            return(
+              item.prod_name.toLowerCase().includes(searchCatg.toLowerCase()) &&
+              item.prod_price <= searchPriceMax
+            )
+          }
+          else if(isNaN(searchPriceMax) && searchName ===""){
+            return(
+              item.prod_name.toLowerCase().includes(searchCatg.toLowerCase()) &&
+              item.prod_price >= searchPriceMin
+            )
+          }
+          else if(searchName===""){
+            return(
+              item.prod_name.toLowerCase().includes(searchCatg.toLowerCase()) &&
+              item.prod_price <= searchPriceMax &&
+              item.prod_price >= searchPriceMin
+            )
+          } 
+          else { // if everything has value
+            return(
+              item.prod_name.toLowerCase().includes(searchName.toLowerCase()) &&
+              item.prod_name.toLowerCase().includes(searchCatg.toLowerCase()) &&
+              item.prod_price <= searchPriceMax &&
+              item.prod_price >= searchPriceMin
+            )
+          }
+
+
+        })
+
+
+        console.log(this.state.productSearch);
+        
+        this.setState({ productSearch: arrSearch })
+  }
 
   onAddWish = username => {
     const prod_id = this.state.products.prod_id;
@@ -212,34 +290,21 @@ class Product extends Component {
 
   }
 
-  catgList = () => {
-    return this.state.categories.map(catg => {
-      return (
-        <ul className="navbar-nav mr-auto" key={catg.id_catg}>
-          <li className="nav-item">
-            <a className="nav-link" href="/">
-              {catg.catg_name}
-            </a>
-          </li>
-        </ul>
-      );
-    });
-  };
+  // catgList = () => {
+  //   return this.state.categories.map(catg => {
+  //     return (
+  //       <ul className="navbar-nav mr-auto" key={catg.id_catg}>
+  //         <li className="nav-item">
+  //           <a className="nav-link" href="/">
+  //             {catg.catg_name}
+  //           </a>
+  //         </li>
+  //       </ul>
+  //     );
+  //   });
+  // };
 
-  onBtnSearch=()=>{
-    let search = this.search.value 
- 
-        var arrSearch = this.state.products.filter(item => {
-            return(
-              item.prod_name.toLowerCase().includes(search.toLowerCase())
-            )
-
-        })
-        
-        console.log(arrSearch)
-
-        this.setState({ productSearch: arrSearch })
-  }
+  
 
   render() {
     return (
@@ -247,7 +312,7 @@ class Product extends Component {
         {/* <!--Navbar--> */}
         <nav className="navbar navbar-expand-lg navbar-dark mdb-color lighten-3 mt-3 mb-5">
           {/* <!-- Navbar brand --> */}
-          <span className="navbar-brand">Categories:</span>
+          <span className="navbar-brand">Filter:</span>
 
           {/* <!-- Collapse button --> */}
           <button
@@ -264,19 +329,37 @@ class Product extends Component {
 
           {/* <!-- Collapsible content --> */}
           <div className="collapse navbar-collapse" id="basicExampleNav">
-            {/* <!-- Links --> */}
-            {this.catgList()}
-            {/* <!-- Links --> */}
-
             <form className="form-inline">
               <div className="md-form my-0">
-                <input
-                  ref={input=>this.search = input}
+              <input
+                  ref={input=>this.searchCatg = input}
                   className="form-control mr-sm-2"
                   type="text"
-                  placeholder="Search"
+                  placeholder="Search by Category"
                   aria-label="Search"
                 />
+              <input
+                  ref={input=>this.searchPriceMin = input}
+                  className="form-control mr-sm-2"
+                  type="text"
+                  placeholder="Minimum Price"
+                  aria-label="Search"
+                />
+                <input
+                  ref={input=>this.searchPriceMax = input}
+                  className="form-control mr-sm-2"
+                  type="text"
+                  placeholder="Maximum Price"
+                  aria-label="Search"
+                />
+                <input
+                  ref={input=>this.searchName = input}
+                  className="form-control mr-sm-2"
+                  type="text"
+                  placeholder="Search by Name"
+                  aria-label="Search"
+                />
+                {/* Search button */}
                 <button type="button" className="btn-btn-outline-primary" onClick={this.onBtnSearch}>
                 <i className="fas fa-search"></i>
                 </button>
