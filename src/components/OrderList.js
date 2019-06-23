@@ -66,21 +66,21 @@ class OrderList extends Component {
     }
       return (
         <div
-          class="modal fade"
+          className="modal fade"
           id="orderDetailModal"
           tabindex="-1"
           role="dialog"
           aria-labelledby="exampleModalCenterTitle"
           aria-hidden="true"
         >
-          <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalCenterTitle">
+          <div className="modal-dialog modal-dialog-centered" role="document">
+            <div className="modal-content" style={{width:'850px'}}>
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalCenterTitle">
                   Your Order Details
                 </h5>
               </div>
-              <div class="modal-body">
+              <div className="modal-body">
                 <table className="table table-bordered table-hover">
                   <thead>
                       <tr>

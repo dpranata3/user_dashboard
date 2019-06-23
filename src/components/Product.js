@@ -73,34 +73,55 @@ class Product extends Component {
               item.prod_price >= searchPriceMin
             )
           }
-          // find product by category
+          // find product by category combine price
           else if(isNaN(searchPriceMin) && isNaN(searchPriceMax) && searchName ==="")
           return(
             item.catg_name.toLowerCase().includes(searchCatg.toLowerCase())
           )
           else if(isNaN(searchPriceMin) && searchName ===""){
             return(
-              item.prod_name.toLowerCase().includes(searchCatg.toLowerCase()) &&
+              item.catg_name.toLowerCase().includes(searchCatg.toLowerCase()) &&
               item.prod_price <= searchPriceMax
             )
           }
           else if(isNaN(searchPriceMax) && searchName ===""){
             return(
-              item.prod_name.toLowerCase().includes(searchCatg.toLowerCase()) &&
+              item.catg_name.toLowerCase().includes(searchCatg.toLowerCase()) &&
               item.prod_price >= searchPriceMin
             )
           }
           else if(searchName===""){
             return(
-              item.prod_name.toLowerCase().includes(searchCatg.toLowerCase()) &&
+              item.catg_name.toLowerCase().includes(searchCatg.toLowerCase()) &&
               item.prod_price <= searchPriceMax &&
               item.prod_price >= searchPriceMin
             )
           } 
+          // find product combine catg and name
+          else if(isNaN(searchPriceMin) && isNaN(searchPriceMax)){
+            return(
+              item.catg_name.toLowerCase().includes(searchCatg.toLowerCase()) &&
+              item.prod_name.toLowerCase().includes(searchName.toLowerCase())
+            )
+          }
+          else if(isNaN(searchPriceMin)){
+            return(
+              item.catg_name.toLowerCase().includes(searchCatg.toLowerCase()) &&
+              item.prod_name.toLowerCase().includes(searchName.toLowerCase()) &&
+              item.prod_price <= searchPriceMax
+            )
+          }
+          else if(isNaN(searchPriceMax)){
+            return(
+              item.catg_name.toLowerCase().includes(searchCatg.toLowerCase()) &&
+              item.prod_name.toLowerCase().includes(searchName.toLowerCase()) &&
+              item.prod_price >= searchPriceMin
+            )
+          }
           else { // if everything has value
             return(
               item.prod_name.toLowerCase().includes(searchName.toLowerCase()) &&
-              item.prod_name.toLowerCase().includes(searchCatg.toLowerCase()) &&
+              item.catg_name.toLowerCase().includes(searchCatg.toLowerCase()) &&
               item.prod_price <= searchPriceMax &&
               item.prod_price >= searchPriceMin
             )
