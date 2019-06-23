@@ -1,18 +1,27 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux'
+import swal from '@sweetalert/with-react'
 
 import {onRegisterUser} from '../actions/index'
 
 class Register extends Component {
 
-    onRegisClick=()=>{
+    onRegisClick=async()=>{
         const username = this.username.value
         const firstname = this.firstname.value
         const lastname = this.lastname.value
         const email = this.email.value
         const password = this.password.value
 
-        this.props.onRegisterUser(username,firstname,lastname,email,password)
+        await this.props.onRegisterUser(username,firstname,lastname,email,password)
+        swal({
+          title: "Successfully Registered",
+          text: "You have been registered",
+          icon: "success",
+          button: "OK"
+        }).then(() => {
+          window.location.href = `/login`;
+        });
     }
 
   render() {

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "../config/axios";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
+import swal from '@sweetalert/with-react'
 
 import { onSaveProfile } from "../actions/index";
 
@@ -30,7 +31,7 @@ class Profile extends Component {
     this.setState({ selectedId: id });
   };
 
-  onSaveProfiles = username => {
+  onSaveProfiles = async username => {
     const first_name = this.firstname.value;
     const last_name = this.lastname.value;
     const address = this.address.value;
@@ -38,7 +39,7 @@ class Profile extends Component {
     const email = this.email.value;
     const avatar = this.ava.files[0];
 
-    this.props.onSaveProfile(
+    await this.props.onSaveProfile(
       username,
       first_name,
       last_name,
@@ -47,6 +48,15 @@ class Profile extends Component {
       email,
       avatar
     );
+
+    swal({
+      title: "Successfully Edited",
+      text: "Your profile has been edited",
+      icon: "success",
+      button: "OK"
+    }).then(() => {
+      window.location.href = `/`;
+    });
   };
 
   render() {

@@ -156,29 +156,42 @@ class OrderList extends Component {
   render() {
     let users = this.props.user;
     if (users.username !== "") {
-      return (
-        <main className="mt-5 pt-4">
-          <div className="container wow fadeIn">
-              <h2 className="h2 text-center"> 
-                My Orders List
-              </h2>
-            <table className="table table-bordered table-hover">
-              <thead>
-                <tr>
-                  <th className="text-center">Id</th>
-                  <th className="text-center">Order Id</th>
-                  <th className="text-center">Total Amount</th>
-                  <th className="text-center">Payment Status</th>
-                  <th className="text-center">Shipment Status</th>
-                  <th className="text-center">Order Status</th>
-                  <th className="text-center">Action</th>
-                </tr>
-              </thead>
-              <tbody>{this.orderList()}</tbody>
-            </table>
+      if(this.state.orders.length > 0){
+        return (
+          <main className="mt-5 pt-4">
+            <div className="container wow fadeIn">
+                <h2 className="h2 text-center"> 
+                  My Orders List
+                </h2>
+              <table className="table table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <th className="text-center">Id</th>
+                    <th className="text-center">Order Id</th>
+                    <th className="text-center">Total Amount</th>
+                    <th className="text-center">Payment Status</th>
+                    <th className="text-center">Shipment Status</th>
+                    <th className="text-center">Order Status</th>
+                    <th className="text-center">Action</th>
+                  </tr>
+                </thead>
+                <tbody>{this.orderList()}</tbody>
+              </table>
+            </div>
+          </main>
+        );
+      } else {
+        return (
+          <main className="mt-5 pt-4">
+            <div className="container mt-5">
+            <div className=" row d-flex justify-content-center">
+              <h1 className="display-4">YOU DON'T HAVE ANY ORDER HISTORY PLEASE GOT TO <Link to='/'>GO SHOP</Link> </h1>
+            </div>
           </div>
-        </main>
-      );
+          </main>
+        )
+      }
+      
     }
     return <Redirect to="/login" />;
   }

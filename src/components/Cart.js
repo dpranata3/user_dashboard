@@ -96,32 +96,45 @@ class Cart extends Component {
   render() {
     let user = this.props.user;
     if (user.username !== "") {
-      return (
-        <main className="mt-5 pt-4">
-          <div className="container wow fadeIn">
-            <h2 className="my-3 h2 text-center">{user.username} Cart</h2>
-            <table className="table table-bordered table-hover">
-              <thead>
-                <tr>
-                  <th className="text-center">Id</th>
-                  <th className="text-center">Product Name</th>
-                  <th className="text-center">Product Image</th>
-                  <th className="text-center">Product Price</th>
-                  <th className="text-center">Qty</th>
-                  <th className="text-center">Sub Total</th>
-                  <th className="text-center">Action</th>
-                </tr>
-              </thead>
-              <tbody>{this.renderList()}</tbody>
-            </table>
-          
-            <table className="table table-bordered table-hover">
-              <tbody className="text-center">{this.checkoutBtn()}</tbody>
-            </table>
+      if (this.state.carts.length > 0) {
+        return (
+          <main className="mt-5 pt-4">
+            <div className="container wow fadeIn">
+              <h2 className="my-3 h2 text-center">{user.username} Cart</h2>
+              <table className="table table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <th className="text-center">Id</th>
+                    <th className="text-center">Product Name</th>
+                    <th className="text-center">Product Image</th>
+                    <th className="text-center">Product Price</th>
+                    <th className="text-center">Qty</th>
+                    <th className="text-center">Sub Total</th>
+                    <th className="text-center">Action</th>
+                  </tr>
+                </thead>
+                <tbody>{this.renderList()}</tbody>
+              </table>
+
+              <table className="table table-bordered table-hover">
+                <tbody className="text-center">{this.checkoutBtn()}</tbody>
+              </table>
+            </div>
+          </main>
+        )
+      } else {
+        return (
+          <main className="mt-5 pt-4">
+            <div className="container mt-5">
+            <div className=" row d-flex justify-content-center">
+              <h1 className="display-4">YOU DON'T HAVE ANY ITEM ON CART PLEASE GOT TO <Link to='/'>GO SHOP</Link> </h1>
+            </div>
           </div>
-        </main>
-      );
+          </main>
+        )
+      }
     }
+      
     return <Redirect to="/login" />;
   }
 }

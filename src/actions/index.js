@@ -10,11 +10,13 @@ export const onLoginClick =(username,password)=>{
             username,
             user_password:password
           })
-          
-              if(!res.data){
+    
+              console.log(res.data);
+              
+              if(res.data ===101 || res.data ===102){
                 dispatch({
                   type:"LOGIN_ERROR",
-                  payload:res
+                  payload:"username or password are wrong"
                 })
     
                  //Menghilangkan pesan error setelah tiga detik
@@ -23,7 +25,6 @@ export const onLoginClick =(username,password)=>{
                       type: "TIMEOUT"
                   })
                 }, 3000);
-                
                 
               }
               cookie.set('masihLogin', res.data.username, {path:'/'})

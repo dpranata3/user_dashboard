@@ -160,8 +160,6 @@ class Navbar extends Component {
               <li className="nav-item">
                 <a className="nav-link waves-effect" href="/">
                   <span className="badge red z-depth-1 mr-1">
-                    {" "}
-                    isi sama count cart
                   </span>
                   <i className="fas fa-shopping-cart" />
                   <span className="clearfix d-none d-sm-inline-block">

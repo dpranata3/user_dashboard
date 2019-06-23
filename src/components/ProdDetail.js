@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import axios from "../config/axios";
 import cookies from 'universal-cookie'
 import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
+import swal from '@sweetalert/with-react'
 
 import {onAddCart} from '../actions/cart'
 
@@ -38,7 +40,7 @@ class ProdDetail extends Component {
   };
 
   // Input data ke td_carts
-  onAddCarts = () => {
+  onAddCarts = async () => {
     const prod_price = this.state.productDetail.prod_price;
     const username = cookie.get("masihLogin");
     const prod_id = parseInt(this.props.match.params.prod_id);
@@ -46,80 +48,187 @@ class ProdDetail extends Component {
     const qty = parseInt(this.iQty.value);
     const total_price = parseInt(qty * prod_price);
 
-    this.props.onAddCart(username, prod_id, qty, total_price);
+    await this.props.onAddCart(username, prod_id, qty, total_price);
+
+    swal({
+      title: "Cart Added",
+      text: "Product has been added to cart",
+      icon: "success",
+      button: "OK"
+    }).then(() => {
+      window.location.href = `/`;
+    });
   };
 
   render() {
     let prods = this.state.productDetail;
-    return (
-      <main className="mt-5 pt-4">
-        <div className="container wow fadeIn">
-          <h2 className="my-3 h2 text-center">{prods.prod_name} </h2>
-          <div className="row">
-            <div className="col-md-6 mb-4">
-              <img src={this.state.url} className="img-fluid" alt="products" />
-            </div>
+    let users = this.props.user
 
-            <div className="col-md-6 mb-4">
-              <div className="p-4">
-                <div className="mb-3">
-                  <a href="/">
-                    <span className="badge purple mr-1">Category 2</span>
-                  </a>
-                  <a href="/">
-                    <span className="badge blue mr-1">New</span>
-                  </a>
-                  <a href="/">
-                    <span className="badge red mr-1">Bestseller</span>
-                  </a>
+    if(users.username!==""){
+      return (
+        <main className="mt-5 pt-4">
+          <div className="container wow fadeIn">
+            <h2 className="my-3 h2 text-center">{prods.prod_name} </h2>
+            <div className="row">
+              <div className="col-md-6 mb-4">
+                <img src={this.state.url} className="img-fluid" alt="products" />
+              </div>
+  
+              <div className="col-md-6 mb-4">
+                <div className="p-4">
+                  <div className="mb-3">
+                    <a href="/">
+                      <span className="badge purple mr-1">Category 2</span>
+                    </a>
+                    <a href="/">
+                      <span className="badge blue mr-1">New</span>
+                    </a>
+                    <a href="/">
+                      <span className="badge red mr-1">Bestseller</span>
+                    </a>
+                  </div>
+  
+                  <p className="lead">
+                    <span>{this.formatterIDR.format(this.state.productDetail.prod_price)}</span>
+                  </p>
+  
+                  <p className="lead font-weight-bold">Description</p>
+  
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Et
+                    dolor suscipit libero eos atque quia ipsa sint voluptatibus!
+                    Beatae sit assumenda asperiores iure at maxime atque
+                    repellendus maiores quia sapiente.
+                  </p>
+  
+                  <form className="d-flex justify-content-left">
+                    <input
+                      ref={input => (this.iQty = input)}
+                      type="number"
+                      defaultValue="1"
+                      min={0}
+                      aria-label="Search"
+                      className="form-control"
+                      style={{ width: "100px" }}
+                    />
+                    <button
+                      className="btn btn-primary btn-md ml-2 my-0 p"
+                      onClick={this.onAddCarts}
+                      type="button"
+                    >
+                      Add to cart
+                      <i className="fas fa-shopping-cart ml-2" />
+                    </button>
+                    <button
+                      className="btn btn-success btn-md ml-2 my-0 p"
+                      type="button"
+                    >
+                      Add to Wishlist
+                      <i className="fas fa-hands ml-2" />
+                    </button>
+                  </form>
                 </div>
-
-                <p className="lead">
-                  <span>{this.formatterIDR.format(this.state.productDetail.prod_price)}</span>
-                </p>
-
-                <p className="lead font-weight-bold">Description</p>
-
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Et
-                  dolor suscipit libero eos atque quia ipsa sint voluptatibus!
-                  Beatae sit assumenda asperiores iure at maxime atque
-                  repellendus maiores quia sapiente.
-                </p>
-
-                <form className="d-flex justify-content-left">
-                  <input
-                    ref={input => (this.iQty = input)}
-                    type="number"
-                    defaultValue="1"
-                    min={0}
-                    aria-label="Search"
-                    className="form-control"
-                    style={{ width: "100px" }}
-                  />
-                  <button
-                    className="btn btn-primary btn-md ml-2 my-0 p"
-                    onClick={this.onAddCarts}
-                    type="button"
-                  >
-                    Add to cart
-                    <i className="fas fa-shopping-cart ml-2" />
-                  </button>
-                  <button
-                    className="btn btn-success btn-md ml-2 my-0 p"
-                    type="button"
-                  >
-                    Add to Wishlist
-                    <i className="fas fa-hands ml-2" />
-                  </button>
-                </form>
               </div>
             </div>
           </div>
-        </div>
-      </main>
-    );
+        </main>
+      );
+    }
+    else {
+      return (
+        <main className="mt-5 pt-4">
+          <div className="container wow fadeIn">
+            <h2 className="my-3 h2 text-center">{prods.prod_name} </h2>
+            <div className="row">
+              <div className="col-md-6 mb-4">
+                <img
+                  src={this.state.url}
+                  className="img-fluid"
+                  alt="products"
+                />
+              </div>
+
+              <div className="col-md-6 mb-4">
+                <div className="p-4">
+                  <div className="mb-3">
+                    <a href="/">
+                      <span className="badge purple mr-1">
+                        Category 2
+                      </span>
+                    </a>
+                    <a href="/">
+                      <span className="badge blue mr-1">New</span>
+                    </a>
+                    <a href="/">
+                      <span className="badge red mr-1">Bestseller</span>
+                    </a>
+                  </div>
+
+                  <p className="lead">
+                    <span>
+                      {this.formatterIDR.format(
+                        this.state.productDetail.prod_price
+                      )}
+                    </span>
+                  </p>
+
+                  <p className="lead font-weight-bold">Description</p>
+
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing
+                    elit. Et dolor suscipit libero eos atque quia ipsa
+                    sint voluptatibus! Beatae sit assumenda asperiores
+                    iure at maxime atque repellendus maiores quia
+                    sapiente.
+                  </p>
+
+                  <form className="d-flex justify-content-left">
+                    <input
+                      ref={input => (this.iQty = input)}
+                      type="number"
+                      defaultValue="1"
+                      min={0}
+                      aria-label="Search"
+                      className="form-control"
+                      style={{ width: "100px" }}
+                    />
+                    <Link to="/login">
+                      <button
+                        className="btn btn-primary btn-md ml-2 my-0 p"
+                        type="button"
+                      >
+                        Add to cart
+                        <i className="fas fa-shopping-cart ml-2" />
+                      </button>
+                    </Link>
+                    <Link to="/login">
+                      <button
+                        className="btn btn-success btn-md ml-2 my-0 p"
+                        type="button"
+                      >
+                        Add to Wishlist
+                        <i className="fas fa-hands ml-2" />
+                      </button>
+                    </Link>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      );
+    }
+
+
+    
   }
 }
 
-export default connect(null,{onAddCart})(ProdDetail);
+const mapStateToProps = state => {
+  return {
+    user: state.auth
+  };
+};
+
+
+export default connect(mapStateToProps,{onAddCart})(ProdDetail);

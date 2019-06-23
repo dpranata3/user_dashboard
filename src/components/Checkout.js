@@ -39,6 +39,7 @@ class Checkout extends Component {
     this.getShipping();
   }
 
+
   getCarts = () => {
     const username = cookie.get("masihLogin");
     axios.get(`/carts/view/${username}`).then(res => {
@@ -123,6 +124,13 @@ class Checkout extends Component {
         newAddress:address,
         newPhone:phone,
         newEmail:email
+      })
+
+      swal({
+        title: "Successfully Calculated!",
+        text: "Your shipping cost has been added",
+        icon: "success",
+        button: "OK",
       })
   };
 
@@ -359,6 +367,22 @@ class Checkout extends Component {
           console.log(resDelCart);
           
         })
+
+      // update data stock in td_stocks by prod_id
+      const old_stock = this.state.carts[i].curr_stock
+      const stock_reduce = this.state.carts[i].qty
+      const new_stock = old_stock-stock_reduce 
+      if(this.state.carts.length >0){
+        let prod_id = this.state.carts[i].prod_id
+
+        axios.patch(`/products/stock/${prod_id}`,{
+          curr_stock: new_stock
+        })
+          .then(resStock=>{
+            console.log(resStock);
+          })
+      }    
+        
     }
 
     let order_id = neworder
@@ -372,7 +396,7 @@ class Checkout extends Component {
     let address = this.state.profiles.address
     let telephone = this.state.profiles.telephone
     
-    // post data to td_orders
+    // // post data to td_orders
     axios.post('/orders/add',{
       
       order_id,
