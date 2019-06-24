@@ -23,13 +23,13 @@ class Checkout extends Component {
     profiles: [],
     totalCarts: [],
     shippings: [],
-    shipCosts:0,
-    shipName:'',
-    newFirstname:'',
-    newLastname:'',
-    newAddress:'',
-    newPhone:'',
-    newEmail:''
+    shipCosts: 0,
+    shipName: "",
+    newFirstname: "",
+    newLastname: "",
+    newAddress: "",
+    newPhone: "",
+    newEmail: ""
   };
 
   componentDidMount() {
@@ -38,7 +38,6 @@ class Checkout extends Component {
     this.getProfiles();
     this.getShipping();
   }
-
 
   getCarts = () => {
     const username = cookie.get("masihLogin");
@@ -108,41 +107,50 @@ class Checkout extends Component {
   };
 
   onSelectedService = async () => {
-    const serviceId = this.services.value;
-    const firstname = this.firstname.value
-    const lastname = this.lastname.value
-    const address = this.address.value
-    const phone = this.phone.value
-    const email = this.email.value
+    if (
+      this.services.value !== "" &&
+      this.firstname.value !== "" &&
+      this.lastname.value !== "" &&
+      this.address.value !== "" &&
+      this.phone.value !== ""
+    ) {
+      const serviceId = this.services.value;
+      const firstname = this.firstname.value;
+      const lastname = this.lastname.value;
+      const address = this.address.value;
+      const phone = this.phone.value;
+      const email = this.email.value;
 
-    const res = await axios.get(`/shippings/cost/${serviceId}`)
+      const res = await axios.get(`/shippings/cost/${serviceId}`);
       this.setState({
-        shipCosts:res.data[0].costs, 
-        shipName:res.data[0].services,
-        newFirstname:firstname,
-        newLastname:lastname,
-        newAddress:address,
-        newPhone:phone,
-        newEmail:email
-      })
+        shipCosts: res.data[0].costs,
+        shipName: res.data[0].services,
+        newFirstname: firstname,
+        newLastname: lastname,
+        newAddress: address,
+        newPhone: phone,
+        newEmail: email
+      });
 
       swal({
         title: "Successfully Calculated!",
         text: "Your shipping cost has been added",
         icon: "success",
-        button: "OK",
-      })
+        button: "OK"
+      });
+    } else {
+      alert("Required field cannot be blank");
+    }
   };
 
   // Modal to display Order
   orderModal = () => {
-    
-    if(this.state.shipCosts) {
-      var cost = this.state.shipCosts
+    if (this.state.shipCosts) {
+      var cost = this.state.shipCosts;
     }
 
-    if(this.state.shipName){
-      var serviceName = this.state.shipName      
+    if (this.state.shipName) {
+      var serviceName = this.state.shipName;
     }
 
     if (this.state.totalCarts.length) {
@@ -150,8 +158,8 @@ class Checkout extends Component {
       var sub_price = this.state.totalCarts[0].total_price;
     }
 
-    var total_price = sub_price+cost
-  
+    var total_price = sub_price + cost;
+
     return (
       <div
         class="modal fade"
@@ -183,8 +191,7 @@ class Checkout extends Component {
                     <label className="mt-3">Full Name</label>
                   </strong>
                   {" : "}
-                  {this.state.newFirstname}{" "}
-                  {this.state.newLastname}
+                  {this.state.newFirstname} {this.state.newLastname}
                 </div>
                 <div>
                   <strong>
@@ -252,8 +259,12 @@ class Checkout extends Component {
               >
                 Close
               </button>
-              <button type="button" class="btn btn-primary" 
-                onClick={()=>{this.Order()}}
+              <button
+                type="button"
+                class="btn btn-primary"
+                onClick={() => {
+                  this.Order();
+                }}
               >
                 Confirm Order
               </button>
@@ -339,90 +350,93 @@ class Checkout extends Component {
   };
 
   // post order to database
-  Order =()=>{
-    for(var i=0;i<this.state.carts.length;i++){
-      var order = new Date()
-			var year = order.getFullYear()
-			var month = order.getMonth()
-			var date = order.getDate()
-			var hours = order.getHours()
-			var minutes = order.getMinutes()
-			var seconds = order.getSeconds()
-      var neworder = `${year}${month}${date}${hours}${minutes}${seconds}`
-      
+  Order = () => {
+    for (var i = 0; i < this.state.carts.length; i++) {
+      var order = new Date();
+      var year = order.getFullYear();
+      var month = order.getMonth();
+      var date = order.getDate();
+      var hours = order.getHours();
+      var minutes = order.getMinutes();
+      var seconds = order.getSeconds();
+      var neworder = `${year}${month}${date}${hours}${minutes}${seconds}`;
+
       // post data to td_order_items
-      axios.post(`/orderitems/add`,{
-        order_id: neworder,
-        prod_id: this.state.carts[i].prod_id,
-        qty: this.state.carts[i].qty,
-        total_price: this.state.carts[i].total_price
-      })
-        .then(resOrderItem=>{
-          console.log(resOrderItem);
+      axios
+        .post(`/orderitems/add`, {
+          order_id: neworder,
+          prod_id: this.state.carts[i].prod_id,
+          qty: this.state.carts[i].qty,
+          total_price: this.state.carts[i].total_price
         })
+        .then(resOrderItem => {
+          console.log(resOrderItem);
+        });
 
       // delete data from carts
-      axios.delete(`/carts/del/${this.state.carts[i].cart_id}`)
-        .then(resDelCart=>{
+      axios
+        .delete(`/carts/del/${this.state.carts[i].cart_id}`)
+        .then(resDelCart => {
           console.log(resDelCart);
-          
-        })
+        });
 
       // update data stock in td_stocks by prod_id
-      const old_stock = this.state.carts[i].curr_stock
-      const stock_reduce = this.state.carts[i].qty
-      const new_stock = old_stock-stock_reduce 
-      if(this.state.carts.length >0){
-        let prod_id = this.state.carts[i].prod_id
+      const old_stock = this.state.carts[i].curr_stock;
+      const stock_reduce = this.state.carts[i].qty;
+      const new_stock = old_stock - stock_reduce;
+      if (this.state.carts.length > 0) {
+        let prod_id = this.state.carts[i].prod_id;
 
-        axios.patch(`/products/stock/${prod_id}`,{
-          curr_stock: new_stock
-        })
-          .then(resStock=>{
-            console.log(resStock);
+        axios
+          .patch(`/products/stock/${prod_id}`, {
+            curr_stock: new_stock
           })
-      }    
-        
+          .then(resStock => {
+            console.log(resStock);
+          });
+      }
     }
 
-    let order_id = neworder
+    let order_id = neworder;
     let username = cookie.get("masihLogin");
-    let subtotal = this.state.totalCarts[0].total_price
-    let shippingcost = this.state.shipCosts
-    let totalAmount = this.state.totalCarts[0].total_price + this.state.shipCosts
-    let payment = "waiting for payment"
-    let shipment = "waiting for payment"
-    let fullname = `${this.state.profiles.first_name} ${this.state.profiles.last_name}`
-    let address = this.state.profiles.address
-    let telephone = this.state.profiles.telephone
-    
-    // // post data to td_orders
-    axios.post('/orders/add',{
-      
-      order_id,
-      username,
-      subtotal,
-      shippingcost,
-      totalAmount,
-      payment,
-      shipment,
-      fullname,
-      address,
-      telephone
-    }) 
-      .then(resOrder=>{
-          console.log(resOrder)
-          swal({
-            title: "Successfully ordered!",
-            text: "You have to choose the payment for your orders",
-            icon: "success",
-            button: "OK",
-          }).then(()=>{
-            window.location.href = `/`
-          })
-      })
+    let subtotal = this.state.totalCarts[0].total_price;
+    let shippingcost = this.state.shipCosts;
+    let totalAmount =
+      this.state.totalCarts[0].total_price + this.state.shipCosts;
+    let payment = "waiting for payment";
+    let shipment = "waiting for payment";
+    let fullname = `${this.state.profiles.first_name} ${
+      this.state.profiles.last_name
+    }`;
+    let address = this.state.profiles.address;
+    let telephone = this.state.profiles.telephone;
 
-  }
+    // // post data to td_orders
+    axios
+      .post("/orders/add", {
+        order_id,
+        username,
+        subtotal,
+        shippingcost,
+        totalAmount,
+        payment,
+        shipment,
+        fullname,
+        address,
+        telephone
+      })
+      .then(resOrder => {
+        console.log(resOrder);
+        swal({
+          title: "Successfully ordered!",
+          text: "You have to choose the payment for your orders",
+          icon: "success",
+          button: "OK"
+        }).then(() => {
+          window.location.href = `/`;
+        });
+      });
+  };
 
   render() {
     let users = this.props.user;
@@ -460,7 +474,12 @@ class Checkout extends Component {
             <h2 className="my-3 h2 text-center">Choose Delivery Service</h2>
             <table className="table table-bordered table-hover">
               <td className="text-center">
-                <select className="form-control" ref={select => {this.services = select}}>
+                <select
+                  className="form-control"
+                  ref={select => {
+                    this.services = select;
+                  }}
+                >
                   {this.serviceList()}
                 </select>
 

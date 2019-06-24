@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import BgImg1 from '../images/2.jpg'
-import BgImg2 from '../images/3.jpg'
-import BgImg3 from '../images/4.jpg'
+import BgImg1 from '../images/men.jpg'
+import BgImg2 from '../images/woman.jpg'
+import BgImg3 from '../images/hair.jpg'
 
 
 class Carousel extends Component {
@@ -62,7 +62,7 @@ class Carousel extends Component {
                           <strong>You will feel better after tasting our product, lots are do and so will you.</strong>
                         </p>
           
-                        <a href="https://mdbootstrap.com/education/bootstrap/" className="btn btn-outline-white btn-lg">Go Get Yours 
+                        <a href="/" className="btn btn-outline-white btn-lg">Go Get Yours 
                          <i className="fas fa-cart-arrow-down"></i>
                         </a>
                       </div>
@@ -96,7 +96,7 @@ class Carousel extends Component {
                           <strong>You will feel better after tasting our product, lots are do and so will you.</strong>
                         </p>
           
-                        <a href="https://mdbootstrap.com/education/bootstrap/" className="btn btn-outline-white btn-lg">Go Get Yours 
+                        <a href="/" className="btn btn-outline-white btn-lg">Go Get Yours 
                           <i className="fas fa-cart-arrow-down"></i>
                         </a>
                       </div>

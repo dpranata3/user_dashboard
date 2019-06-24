@@ -72,14 +72,14 @@ class Navbar extends Component {
                     My Order
                   </Link>
                 </li>
-                <li className="nav-item">
+                {/* <li className="nav-item">
                   <Link
                     to={`/wishlist/${users.username}`}
                     className="nav-link waves-effect"
                   >
                     Wishlist
                   </Link>
-                </li>
+                </li> */}
                 <li className="nav-item">
                   <Link
                     to={`/profile/${users.username}`}
@@ -147,13 +147,13 @@ class Navbar extends Component {
           {/* <!-- Links --> */}
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             {/* <!-- Left --> */}
-            <ul className="navbar-nav mr-auto">
+            {/* <ul className="navbar-nav mr-auto">
               <li className="nav-item">
                 <a className="nav-link waves-effect" href="/">
                   Wishlist
                 </a>
               </li>
-            </ul>
+            </ul> */}
 
             {/* <!-- Right --> */}
             <ul className="navbar-nav nav-flex-icons">

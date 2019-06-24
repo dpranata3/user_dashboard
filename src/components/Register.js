@@ -7,6 +7,7 @@ import {onRegisterUser} from '../actions/index'
 class Register extends Component {
 
     onRegisClick=async()=>{
+       if(this.username.value!=="" && this.firstname.value !=="" && this.lastname.value !=="" && this.email.value !=="" && this.password.value !==""){
         const username = this.username.value
         const firstname = this.firstname.value
         const lastname = this.lastname.value
@@ -22,9 +23,27 @@ class Register extends Component {
         }).then(() => {
           window.location.href = `/login`;
         });
+       }
+      else {
+        alert('Required field cannot be empty')
+      }
+    }
+
+    onErrorLogin=()=>{
+      if(this.props.user.error !==""){
+        let errorMsg = this.props.user.error
+              
+        return (
+            <div className="alert alert-danger mt-4">
+                <label>{errorMsg}</label>
+            </div>
+        )
+      }  
     }
 
   render() {
+    console.log(this.props.user);
+    
     return (
       <div>
         <main className="mt-5 pt-4">
@@ -101,6 +120,7 @@ class Register extends Component {
                     Register
                   </button>
                 </form>
+                {this.onErrorLogin()}
               </div>
             </div>
           </div>
@@ -109,5 +129,11 @@ class Register extends Component {
     );
   }
 }
+const mapStateToProps = state => {
+  return {
+    user: state.auth,
+    error: state.auth
+  }
+}
 
-export default connect(null,{onRegisterUser}) (Register);
+export default connect(mapStateToProps,{onRegisterUser}) (Register);

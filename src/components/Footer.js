@@ -6,22 +6,7 @@ class Footer extends Component {
       <div>
         <footer className="page-footer text-center font-small mt-4 wow fadeIn">
           <div className="pt-4">
-            <a
-              className="btn btn-outline-white"
-              href="https://mdbootstrap.com/docs/jquery/getting-started/download/"
-              role="button"
-            >
-              Something 1
-              <i className="fas fa-download ml-2" />
-            </a>
-            <a
-              className="btn btn-outline-white"
-              href="https://mdbootstrap.com/education/bootstrap/"
-              role="button"
-            >
-              Something 2
-              <i className="fas fa-graduation-cap ml-2" />
-            </a>
+           
           </div>
 
           <hr className="my-4" />

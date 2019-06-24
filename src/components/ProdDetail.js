@@ -108,13 +108,6 @@ class ProdDetail extends Component {
                       Add to cart
                       <i className="fas fa-shopping-cart ml-2" />
                     </button>
-                    <button
-                      className="btn btn-success btn-md ml-2 my-0 p"
-                      type="button"
-                    >
-                      Add to Wishlist
-                      <i className="fas fa-hands ml-2" />
-                    </button>
                   </form>
                 </div>
               </div>
@@ -164,11 +157,7 @@ class ProdDetail extends Component {
                   <p className="lead font-weight-bold">Description</p>
 
                   <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing
-                    elit. Et dolor suscipit libero eos atque quia ipsa
-                    sint voluptatibus! Beatae sit assumenda asperiores
-                    iure at maxime atque repellendus maiores quia
-                    sapiente.
+                   {prods.prod_desc}
                   </p>
 
                   <form className="d-flex justify-content-left">
@@ -188,15 +177,6 @@ class ProdDetail extends Component {
                       >
                         Add to cart
                         <i className="fas fa-shopping-cart ml-2" />
-                      </button>
-                    </Link>
-                    <Link to="/login">
-                      <button
-                        className="btn btn-success btn-md ml-2 my-0 p"
-                        type="button"
-                      >
-                        Add to Wishlist
-                        <i className="fas fa-hands ml-2" />
                       </button>
                     </Link>
                   </form>

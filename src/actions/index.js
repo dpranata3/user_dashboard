@@ -52,7 +52,19 @@ export const onRegisterUser = (username,firstname,lastname,email,password) => {
             user_password:password
         })
         .then(res => {
-            console.log(res.data);
+          console.log(res.data.sqlMessage);
+          
+            if(res.data.sqlMessage.includes('duplicate')){
+              dispatch({
+                type:"AUTH_ERROR",
+                error:"duplicate username"
+              })
+            } else if(res.data.sqlMessage.includes('email')){
+              dispatch({
+                type:"AUTH_ERROR",
+                error:"Mail not valid"
+              })
+            }
             
           dispatch({
             type: "AUTH_SUCCESS",
