@@ -51,20 +51,18 @@ class Carousel extends Component {
                       {/* <!-- Content --> */}
                       <div className="text-center white-text mx-5 wow fadeIn">
                         <h1 className="mb-4">
-                          <strong>The Skin all you need 1</strong>
+                          <strong>Skin Care</strong>
                         </h1>
           
                         <p>
-                          <strong>Best and comes from natural ingridients 1</strong>
+                          <strong>Get Your Brighter and Cleaner Skin! Gives you a natural and healthy bright glow skin</strong>
                         </p>
           
                         <p className="mb-4 d-none d-md-block">
-                          <strong>You will feel better after tasting our product, lots are do and so will you.</strong>
+                          <strong>Gives you a natural and healthy bright glow skin</strong>
                         </p>
           
-                        <a href="/" className="btn btn-outline-white btn-lg">Go Get Yours 
-                         <i className="fas fa-cart-arrow-down"></i>
-                        </a>
+                        
                       </div>
                       {/* <!-- Content --> */}
           
@@ -85,20 +83,17 @@ class Carousel extends Component {
                       {/* <!-- Content --> */}
                       <div className="text-center white-text mx-5 wow fadeIn">
                         <h1 className="mb-4">
-                          <strong>The Skin all you need 2</strong>
+                          <strong>Hair Treatment</strong>
                         </h1>
           
                         <p>
-                          <strong>Best and comes from natural ingridients 2</strong>
+                          <strong>Treat processed hair to a nutritious deep conditioner, hair mask or leave-in conditionerbv</strong>
                         </p>
           
                         <p className="mb-4 d-none d-md-block">
-                          <strong>You will feel better after tasting our product, lots are do and so will you.</strong>
+                          <strong>Find treatments, supplements and tools to help keep your hair healthy and looking its best</strong>
                         </p>
           
-                        <a href="/" className="btn btn-outline-white btn-lg">Go Get Yours 
-                          <i className="fas fa-cart-arrow-down"></i>
-                        </a>
                       </div>
                       {/* <!-- Content --> */}
           
@@ -119,20 +114,18 @@ class Carousel extends Component {
                       {/* <!-- Content --> */}
                       <div className="text-center white-text mx-5 wow fadeIn">
                         <h1 className="mb-4">
-                          <strong>The Skin all you need 3</strong>
+                          <strong>Facial</strong>
                         </h1>
           
                         <p>
-                          <strong>Best and comes from natural ingridients 3</strong>
+                          <strong>Restore your skin's natural beauty</strong>
                         </p>
           
                         <p className="mb-4 d-none d-md-block">
-                          <strong>You will feel better after tasting our product, lots are do and so will you.</strong>
+                          <strong>Your face is how the world sees you</strong>
                         </p>
           
-                        <a href="https://mdbootstrap.com/education/bootstrap/" className="btn btn-outline-white btn-lg">Go Get Yours 
-                          <i className="fas fa-cart-arrow-down"></i>
-                        </a>
+                        
                       </div>
                       {/* <!-- Content --> */}
           

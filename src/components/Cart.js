@@ -98,15 +98,19 @@ class Cart extends Component {
             <td className="text-center">{cart.cart_id}</td>
             <td className="text-center">{cart.prod_name}</td>
             <td className="text-center">
-              <Link to={`/productDetail/${cart.prod_id}`}>
-                <img
+            <a href={`http://localhost:2019/products/images/${
+                    cart.prod_image
+                  }`} target="__blank">
+            <img
                   src={`http://localhost:2019/products/images/${
                     cart.prod_image
                   }`}
                   alt={cart.prod_name}
                   style={{ width: "50px", height: "50px" }}
                 />
-              </Link>
+            </a>
+               
+            
             </td>
             <td className="text-center">{this.formatterIDR.format(cart.prod_price)}</td>
             <td className="text-center">{cart.qty}</td>

@@ -64,6 +64,9 @@ class ProdDetail extends Component {
     let prods = this.state.productDetail;
     let users = this.props.user
 
+    console.log(prods);
+    
+
     if(users.username!==""){
       return (
         <main className="mt-5 pt-4">
@@ -135,14 +138,8 @@ class ProdDetail extends Component {
                   <div className="mb-3">
                     <a href="/">
                       <span className="badge purple mr-1">
-                        Category 2
+                        {prods.catg_name}
                       </span>
-                    </a>
-                    <a href="/">
-                      <span className="badge blue mr-1">New</span>
-                    </a>
-                    <a href="/">
-                      <span className="badge red mr-1">Bestseller</span>
                     </a>
                   </div>
 
